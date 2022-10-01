@@ -1,0 +1,19 @@
+.header__nav-bar {
+    margin: 0;
+    font-size: 18px;
+    color: white;
+    font-weight: 400;
+    text-decoration: none;
+    transition: opacity 0.5s linear;
+}
+
+.header__nav-bar:hover {
+    opacity: 60%;
+    cursor: pointer;
+
+}
+
+.header__nav-bar_logout {
+    color: #A9A9A9;
+
+}

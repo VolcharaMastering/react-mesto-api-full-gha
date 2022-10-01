@@ -1,0 +1,8 @@
+.header__ident{
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
+    color: white;
+    font-weight: 400;
+    margin: 9px 0 0;
+}

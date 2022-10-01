@@ -1,0 +1,8 @@
+.profile__avatar-image {
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
+    z-index: 0;
+    position: relative;
+    margin: 0;
+}

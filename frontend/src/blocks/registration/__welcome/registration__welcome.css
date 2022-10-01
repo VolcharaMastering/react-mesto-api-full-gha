@@ -1,0 +1,12 @@
+.registration__welcome {
+    font-size: 24px;
+    font-weight: 900;
+    margin: 21px auto 0 auto;
+}
+
+@media screen and (max-width: 675px) {
+    .registration__welcome {
+        font-size: 18px;
+        margin: 5px auto 0 auto;
+    }
+}

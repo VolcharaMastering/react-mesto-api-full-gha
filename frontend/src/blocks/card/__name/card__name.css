@@ -1,0 +1,9 @@
+.card__name{
+    max-width: 198px;
+    font-size: 24px;
+    font-weight: 900;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0;
+}

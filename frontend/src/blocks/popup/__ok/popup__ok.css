@@ -1,0 +1,9 @@
+.popup__ok {
+    margin: 30px 36px 36px 36px;
+}
+
+@media screen and (max-width: 675px) {
+    .popup__ok {
+        margin: 30px 22px 25px 22px;
+    }
+}

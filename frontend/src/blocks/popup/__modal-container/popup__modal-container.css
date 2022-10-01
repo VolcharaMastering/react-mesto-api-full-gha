@@ -1,0 +1,12 @@
+.popup__modal-container{
+    width: 430px;
+    background-color: white;
+    color: #000;
+    border-radius: 3%;
+    position: relative;
+}
+@media screen and (max-width: 675px){
+    .popup__modal-container{
+        width: 282px;
+    }
+}

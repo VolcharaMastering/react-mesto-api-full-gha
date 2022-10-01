@@ -1,0 +1,33 @@
+.registration__input {
+    width: 350px;
+    height: 27px;
+    position: relative;
+    color: white;
+    font-size: 14px;
+    font-weight: 400;
+    margin: 45px auto 0 auto;
+    background-color: black;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+
+.registration__input:nth-of-type(2) {
+    margin: 28px auto 0 auto;
+}
+
+.registration__input:nth-of-type(3) {
+    margin: 28px auto 0 auto;
+}
+
+@media screen and (max-width: 675px) {
+    .registration__input {
+        width: 238px;
+        margin: 75px 22px 0 22px;
+    }
+
+    /* .registration__input:nth-of-type(2) {
+        margin: 27px 22px 0 22px;
+    } */
+}

@@ -1,0 +1,20 @@
+.profile__avatar-dark {
+    background-color: rgba(0, 0, 0, 80%);
+    background-image: url(../../../images/pen.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto;
+    height: 120px;
+    width: 120px;
+    cursor: pointer;
+    z-index: 2;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+.profile__avatar:hover .profile__avatar-dark {
+    visibility: visible;
+    opacity: 1;
+}
