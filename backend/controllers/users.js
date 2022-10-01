@@ -35,13 +35,23 @@ const login = async (req, res, next) => {
     res.cookie('jwt', token, {
       maxAge: 3600000,
       httpOnly: true,
-      sameSite: true,
-      // secure: true,
+      // sameSite: true,
+      sameSite: 'None',
+      secure: true,
     });
     res.status(OK_CODE).send(user.toJSON());
   } catch (e) {
     next(new ServerError('Произошла ошибка на сервере'));
   }
+};
+
+const logout = async (req, res) => {
+  // Set token to none and expire after 1 seconds
+  res.cookie('token', 'none', {
+    expires: new Date(Date.now() + 1 * 1000),
+    httpOnly: true,
+  });
+  res.status(OK_CODE).json({ success: true, message: 'Пользователь успешно разлогинился.' });
 };
 
 const aboutMe = async (req, res, next) => {
@@ -172,5 +182,6 @@ module.exports = {
   updateUser,
   updateUserAvatar,
   login,
+  logout,
   aboutMe,
 };

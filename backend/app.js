@@ -4,21 +4,26 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const auth = require('./middlewares/auth');
 // const path = require('path');
 // const bodyParser =require('body-parser');
-const { createUser, login } = require('./controllers/users');
+const { createUser, login, logout } = require('./controllers/users');
 const { validateLogin, validateCreateUser } = require('./middlewares/errorValidator');
 const errorHandler = require('./middlewares/errorHandler');
 const NotFound = require('./errors/notFound');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3010 } = process.env;
 const app = express();
-
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({extended: true}));
+/* app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+})); */
 
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
@@ -28,6 +33,8 @@ app.post('/signup/', validateCreateUser, createUser);
 app.use(auth);
 app.use(require('./routes/cards'));
 app.use(require('./routes/users'));
+
+app.post('/logout', logout);
 
 app.use('*', (req, res, next) => {
   next(new NotFound('Страница не найдена'));

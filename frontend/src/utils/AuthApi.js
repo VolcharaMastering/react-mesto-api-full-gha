@@ -1,9 +1,8 @@
-import { BASE_URL, headers } from "./constants.js";
+import { URL_CONFIG } from "./constants.js";
 
 class AuthApi {
     constructor() {
-        this._BASE_URL = BASE_URL;
-        this._headers = headers;
+        this._URL_CONFIG = URL_CONFIG;
     }
 
     _checkResponse(res) {
@@ -14,8 +13,8 @@ class AuthApi {
     }
 
     register(data) {
-        return fetch(BASE_URL + '/signup', {
-            headers: this._headers,
+        return fetch(this._URL_CONFIG.url + 'signup', {
+            headers: this._URL_CONFIG.headers,
             method: 'POST',
             body: JSON.stringify(data),
         })
@@ -23,24 +22,31 @@ class AuthApi {
     }
 
     authorize(data) {
-        return fetch(BASE_URL + '/signin', {
-            headers: this._headers,
+        return fetch(this._URL_CONFIG.url + 'signin', {
+            headers: this._URL_CONFIG.headers,
             method: 'POST',
             body: JSON.stringify(data),
         })
-            // .then(res => res.json()); 
             .then(this._checkResponse);
     }
 
-    authByToken(token) {
-        return fetch(BASE_URL + '/users/me', {
+    // authByToken(token) {
+    authByToken() {
+        return fetch(this._URL_CONFIG.url + 'users/me', {
             method: 'GET',
-            headers: {
-                ...this._headers,
-                "Authorization": `Bearer ${token}`,
-            },
+/*             headers: {
+                ...this._URL_CONFIG.headers,
+                // "Authorization": `Bearer ${token}`,
+            }, */
+            credentials: "include"
         })
-            // .then(res => res.json());
+            .then(this._checkResponse);
+    }
+    logout() {
+        return fetch(this._URL_CONFIG.url + 'logout', {
+            method: 'GET',
+            credentials: "include"
+        })
             .then(this._checkResponse);
     }
 }

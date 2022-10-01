@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import '../index.css';
 import React, { useEffect, useState } from "react";
 import { Route, Switch, useHistory } from 'react-router-dom';
@@ -63,22 +64,21 @@ function App() {
 
     //-----------Check token-------------
 
-    const tokenCheck = () => {
-        const jwt = localStorage.getItem('jwt');
-        if (!jwt) { return };
-
-        authApi.authByToken(jwt)
-            .then((res) => {
-                setUserEmail(res.data.email);
-                setLoggedIn(true);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+    const authCheck = () => {
+        if (!loggedIn) {
+            authApi.authByToken()
+                .then((res) => {
+                    setUserEmail(res.data.email);
+                    setLoggedIn(true);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     };
 
     useEffect(() => {
-        tokenCheck();
+        authCheck();
     }, []);
     useEffect(() => {
         if (loggedIn) {
@@ -95,7 +95,7 @@ function App() {
             .then((res) => {
                 setUserEmail(data.email);
                 setLoggedIn(true);
-                localStorage.setItem('jwt', res.token)
+                // localStorage.setItem('jwt', res.token)
             })
     }
 
@@ -108,10 +108,15 @@ function App() {
     }
 
     function onLogout(e) {
-        setLoggedIn(false);
-        localStorage.removeItem('jwt');
-        // setUserEmail=('');
-        history.push('/sign-in');
+        return authApi.logout()
+            .then((res) => {
+                setUserEmail('');
+                setLoggedIn(false);
+            })
+        // localStorage.removeItem('jwt');
+        .finally(()=>{
+            history.push('/sign-in');
+        })
     }
     //========================================
 
@@ -133,7 +138,7 @@ function App() {
         setIsInfoToolTipOpen(false);
         setSelectedCard({})
     }
-//EscapeClose
+    //EscapeClose
     const isOpen =
         isEditAvatarPopupOpen || isEditProfilePopupOpen
         || isEditAddPlacePopupOpen || isInfoToolTipOpen || selectedCard.link;

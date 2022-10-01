@@ -1,8 +1,9 @@
-import { config } from "./constants.js";
+import { URL_CONFIG } from "./constants.js";
 
 class Api {
-    constructor(token) {
-        this._config = config;
+    // constructor(token) {
+    constructor() {
+        this._URL_CONFIG = URL_CONFIG;
     }
 
     _checkResponse(res) {
@@ -13,24 +14,27 @@ class Api {
     }
 
     getData(forUrl) {
-        return fetch(this._config.url + forUrl, {
-            headers: this._config.headers
+        return fetch(this._URL_CONFIG.url + forUrl, {
+            credentials: "include",
+            headers: this._URL_CONFIG.headers
         })
             .then(this._checkResponse);
     }
 
     changeLike(cardId, state) {
         const likeMethod = state ? 'PUT' : 'DELETE'
-        return fetch(this._config.url + 'cards/' + cardId + '/likes', {
-            headers: this._config.headers,
+        return fetch(this._URL_CONFIG.url + 'cards/' + cardId + '/likes', {
+            credentials: "include",
+            headers: this._URL_CONFIG.headers,
             method: likeMethod
         })
             .then(this._checkResponse);
     }
 
     setCard(settings) {
-        return fetch(this._config.url + 'cards', {
-            headers: this._config.headers,
+        return fetch(this._URL_CONFIG.url + 'cards', {
+            credentials: "include",
+            headers: this._URL_CONFIG.headers,
             method: 'POST',
             body: JSON.stringify(settings),
         })
@@ -38,16 +42,18 @@ class Api {
     }
 
     delCard(cardId) {
-        return fetch(this._config.url + 'cards/' + cardId, {
-            headers: this._config.headers,
+        return fetch(this._URL_CONFIG.url + 'cards/' + cardId, {
+            credentials: "include",
+            headers: this._URL_CONFIG.headers,
             method: 'DELETE'
         })
             .then(this._checkResponse);
     }
 
     setProfile(data) {
-        return fetch(this._config.url + 'users/me', {
-            headers: this._config.headers,
+        return fetch(this._URL_CONFIG.url + 'users/me', {
+            credentials: "include",
+            headers: this._URL_CONFIG.headers,
             method: 'PATCH',
             body: JSON.stringify(data),
         })
@@ -55,8 +61,9 @@ class Api {
     }
 
     setAvatar(data) {
-        return fetch(this._config.url + 'users/me/avatar', {
-            headers: this._config.headers,
+        return fetch(this._URL_CONFIG.url + 'users/me/avatar', {
+            credentials: "include",
+            headers: this._URL_CONFIG.headers,
             method: 'PATCH',
             body: JSON.stringify(data),
         })
