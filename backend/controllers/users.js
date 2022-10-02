@@ -36,16 +36,16 @@ const login = async (req, res, next) => {
       maxAge: 3600000,
       httpOnly: true,
       // sameSite: true,
-      sameSite: 'None',
+      // sameSite: 'None',
       secure: true,
-    });
-    res.status(OK_CODE).send(user.toJSON());
+    }).status(OK_CODE).send({data: user.toJSON(), token});
+    // res.status(OK_CODE).send(user.toJSON());
   } catch (e) {
     next(new ServerError('Произошла ошибка на сервере'));
   }
 };
 
-const logout = async (req, res) => {
+const logout = async (req, res, next) => {
   // Set token to none and expire after 1 seconds
   res.cookie('token', 'none', {
     expires: new Date(Date.now() + 1 * 1000),
@@ -53,6 +53,38 @@ const logout = async (req, res) => {
   });
   res.status(OK_CODE).json({ success: true, message: 'Пользователь успешно разлогинился.' });
 };
+
+/* const login = async (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    next(new PermissionError('Поля необходимо заполнить.'));
+    return;
+  }
+  try {
+    const user = await User.findOne({ email }).select('+password');
+    if (!user) {
+      next(new AuthError('Неверное имя пользователя или пароль'));
+      return;
+    }
+    const validUser = await bcrypt.compare(password, user.password);
+    if (!validUser) {
+      next(new AuthError('Неверное имя пользователя или пароль'));
+      return;
+    }
+    const token = jwt.sign({
+      _id: user._id,
+    }, process.env.JWT_SECRET);
+    res.cookie('jwt', token, {
+      maxAge: 3600000,
+      httpOnly: true,
+      sameSite: 'None',
+      secure: true,
+    });
+    res.status(OK_CODE).send(user.toJSON());
+  } catch (e) {
+    next(new ServerError('Произошла ошибка на сервере'));
+  }
+}; */
 
 const aboutMe = async (req, res, next) => {
   const myId = req.user._id;

@@ -32,13 +32,13 @@ class AuthApi {
 
     // authByToken(token) {
     authByToken() {
-        return fetch(this._URL_CONFIG.url + 'users/me', {
+        return fetch(this._URL_CONFIG.url, {
             method: 'GET',
-/*             headers: {
+            headers: {
                 ...this._URL_CONFIG.headers,
                 // "Authorization": `Bearer ${token}`,
-            }, */
-            credentials: "include"
+            },
+            credentials: "include",
         })
             .then(this._checkResponse);
     }

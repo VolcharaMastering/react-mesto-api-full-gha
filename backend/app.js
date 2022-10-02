@@ -14,22 +14,23 @@ const errorHandler = require('./middlewares/errorHandler');
 const NotFound = require('./errors/notFound');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3010 } = process.env;
+const { PORT = 3000 } = process.env;
 const app = express();
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({extended: true}));
-/* app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true,
-})); */
+// app.use(cors({
+//   origin: ['https://mesto.vmstr.nomoredomains.icu', 'https://91.149.160.223:3000', 'localhost:3000'],
+//   credentials: true,
+// })); 
 
 app.use(cors());
+
 app.use(cookieParser());
 app.use(express.json());
 
 app.use(requestLogger);
-app.post('/signin/', validateLogin, login);
-app.post('/signup/', validateCreateUser, createUser);
+app.post('/signin', validateLogin, login);
+app.post('/signup', validateCreateUser, createUser);
 app.use(auth);
 app.use(require('./routes/cards'));
 app.use(require('./routes/users'));

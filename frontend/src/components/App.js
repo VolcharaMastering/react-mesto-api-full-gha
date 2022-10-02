@@ -103,7 +103,7 @@ function App() {
         setIsInfoToolTipOpen(true);
         return authApi.register(data)
             .then(() => {
-                history.push('/sign-in');
+                history.push('/signin');
             })
     }
 
@@ -115,7 +115,7 @@ function App() {
             })
         // localStorage.removeItem('jwt');
         .finally(()=>{
-            history.push('/sign-in');
+            history.push('/signin');
         })
     }
     //========================================
@@ -239,14 +239,14 @@ function App() {
                     onLogout={onLogout}
                 />
                 <Switch>
-                    <Route path='/sign-in'>
+                    <Route path='/signin'>
                         <Login
                             onLogin={onLogin}
                             setMessage={setMessage}
                             setRegState={setRegState}
                         />
                     </Route>
-                    <Route path='/sign-up'>
+                    <Route path='/signup'>
                         <Register
                             onRegister={onRegister}
                             setMessage={setMessage}

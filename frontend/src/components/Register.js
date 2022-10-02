@@ -90,7 +90,7 @@ function Register({ onRegister, setMessage, setRegState }) {
                 </button>
                 <div className="registration__label">
                     <p>Уже зарегистрированы?&nbsp;</p>
-                    <Link to="/sign-in" className="registration__login-link">Войти</Link>
+                    <Link to="/signin" className="registration__login-link">Войти</Link>
                 </div>
             </form>
         </section>
