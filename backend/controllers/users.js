@@ -32,27 +32,29 @@ const login = async (req, res, next) => {
     const token = jwt.sign({
       _id: user._id,
     }, process.env.JWT_SECRET);
-    res.cookie('jwt', token, {
+    /* res.cookie('jwt', token, {
       maxAge: 3600000,
       httpOnly: true,
       // sameSite: true,
       sameSite: 'None',
       secure: true,
-    });
-    res.status(OK_CODE).send(user.toJSON());
+    }); */
+    // res.status(OK_CODE).send({ token });
+    res.status(OK_CODE).send({ data: user.toJSON(), token });
+    // return token;
   } catch (e) {
     next(new ServerError('Произошла ошибка на сервере'));
   }
 };
 
-const logout = async (req, res) => {
+/* const logout = async (req, res) => {
   // Set token to none and expire after 1 seconds
   res.cookie('token', 'none', {
     expires: new Date(Date.now() + 1 * 1000),
     httpOnly: true,
   });
   res.status(OK_CODE).json({ success: true, message: 'Пользователь успешно разлогинился.' });
-};
+}; */
 
 const aboutMe = async (req, res, next) => {
   const myId = req.user._id;
@@ -62,7 +64,7 @@ const aboutMe = async (req, res, next) => {
       next(new NotFound('Такого пользователя нет'));
       return;
     }
-    res.status(OK_CODE).send(me);
+    res.status(OK_CODE).send({ data: me });
   } catch (e) {
     if (e.name === 'CastError') {
       next(new IncorrectData('Невалидный id', myId));
@@ -75,7 +77,7 @@ const aboutMe = async (req, res, next) => {
 const getUsers = async (req, res, next) => {
   try {
     const users = await User.find({});
-    res.status(OK_CODE).send(users);
+    res.status(OK_CODE).send({ data: users });
   } catch (e) {
     next(new ServerError('Произошла ошибка на сервере'));
   }
@@ -89,7 +91,7 @@ const getUserById = async (req, res, next) => {
       next(new NotFound('Такого пользователя нет'));
       return;
     }
-    res.status(OK_CODE).send(user);
+    res.status(OK_CODE).send({ data: user });
   } catch (e) {
     if (e.name === 'CastError') {
       next(new IncorrectData('Невалидный id'));
@@ -116,7 +118,7 @@ const createUser = async (req, res, next) => {
     const user = await new User({
       email, password: hashedPassword, name, about, avatar,
     }).save();
-    res.status(CODE_CREATED).send(user);
+    res.status(CODE_CREATED).send({ data: user });
   } catch (e) {
     if (e.code === 11000) {
       next(new ConflictError('Пользователь с таким email уже существует.'));
@@ -182,6 +184,6 @@ module.exports = {
   updateUser,
   updateUserAvatar,
   login,
-  logout,
+  // logout,
   aboutMe,
 };

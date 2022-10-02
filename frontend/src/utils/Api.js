@@ -1,8 +1,7 @@
 import { URL_CONFIG } from "./constants.js";
 
 class Api {
-    // constructor(token) {
-    constructor() {
+    constructor(token) {
         this._URL_CONFIG = URL_CONFIG;
     }
 
@@ -15,8 +14,7 @@ class Api {
 
     getData(forUrl) {
         return fetch(this._URL_CONFIG.url + forUrl, {
-            credentials: "include",
-            headers: this._URL_CONFIG.headers
+            headers: this._URL_CONFIG.headers,
         })
             .then(this._checkResponse);
     }
@@ -24,7 +22,6 @@ class Api {
     changeLike(cardId, state) {
         const likeMethod = state ? 'PUT' : 'DELETE'
         return fetch(this._URL_CONFIG.url + 'cards/' + cardId + '/likes', {
-            credentials: "include",
             headers: this._URL_CONFIG.headers,
             method: likeMethod
         })
@@ -33,7 +30,6 @@ class Api {
 
     setCard(settings) {
         return fetch(this._URL_CONFIG.url + 'cards', {
-            credentials: "include",
             headers: this._URL_CONFIG.headers,
             method: 'POST',
             body: JSON.stringify(settings),
@@ -43,7 +39,6 @@ class Api {
 
     delCard(cardId) {
         return fetch(this._URL_CONFIG.url + 'cards/' + cardId, {
-            credentials: "include",
             headers: this._URL_CONFIG.headers,
             method: 'DELETE'
         })
@@ -52,7 +47,6 @@ class Api {
 
     setProfile(data) {
         return fetch(this._URL_CONFIG.url + 'users/me', {
-            credentials: "include",
             headers: this._URL_CONFIG.headers,
             method: 'PATCH',
             body: JSON.stringify(data),
@@ -62,7 +56,6 @@ class Api {
 
     setAvatar(data) {
         return fetch(this._URL_CONFIG.url + 'users/me/avatar', {
-            credentials: "include",
             headers: this._URL_CONFIG.headers,
             method: 'PATCH',
             body: JSON.stringify(data),

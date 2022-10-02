@@ -1,8 +1,9 @@
 import { URL_CONFIG } from "./constants.js";
 
 class AuthApi {
-    constructor() {
+    constructor(token) {
         this._URL_CONFIG = URL_CONFIG;
+        this._token = token;
     }
 
     _checkResponse(res) {
@@ -30,15 +31,13 @@ class AuthApi {
             .then(this._checkResponse);
     }
 
-    // authByToken(token) {
-    authByToken() {
+    authByToken(token) {
         return fetch(this._URL_CONFIG.url + 'users/me', {
             method: 'GET',
-/*             headers: {
-                ...this._URL_CONFIG.headers,
-                // "Authorization": `Bearer ${token}`,
-            }, */
-            credentials: "include"
+            headers: {
+                ...this._headers,
+                "Authorization": `Bearer ${token}`,
+            },
         })
             .then(this._checkResponse);
     }

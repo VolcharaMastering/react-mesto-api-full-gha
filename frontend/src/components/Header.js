@@ -7,12 +7,12 @@ function Header(props) {
     const { pathname } = useLocation();
     useEffect(() => {
         switch (pathname) {
-            case ("/sign-in"):
-                setHeaderLine(<Link to='/sign-up' className="header__nav-bar">Регистрация</Link>)
+            case ("/signin"):
+                setHeaderLine(<Link to='/signup' className="header__nav-bar">Регистрация</Link>)
                 setUserEmail('');
                 break;
-            case '/sign-up':
-                setHeaderLine(<Link to='/sign-in' className="header__nav-bar">Вход</Link>)
+            case '/signup':
+                setHeaderLine(<Link to='/signin' className="header__nav-bar">Вход</Link>)
                 setUserEmail('');
                 break;
             case '/':
@@ -20,7 +20,7 @@ function Header(props) {
                 setUserEmail(props.userEmail);
                 break;
             default:
-                setHeaderLine(<Link to='/sign-in' className="header__nav-bar">Вход</Link>);
+                setHeaderLine(<Link to='/signin' className="header__nav-bar">Вход</Link>);
                 setUserEmail('');
         }
     }, [pathname]);

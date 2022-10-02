@@ -50,7 +50,7 @@ function App() {
             .catch((err) => {
                 console.log(err);
             })
-    }, [])
+    }, [loggedIn])
     function handleUpdateUser(userData) {
         api.setProfile(userData)
             .then((newUser) => {
@@ -64,28 +64,28 @@ function App() {
 
     //-----------Check token-------------
 
-    const authCheck = () => {
-        if (!loggedIn) {
-            authApi.authByToken()
-                .then((res) => {
-                    setUserEmail(res.data.email);
-                    setLoggedIn(true);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
+    const tokenCheck = () => {
+        const jwt = localStorage.getItem('jwt');
+        if (!jwt) { return };
+
+        authApi.authByToken(jwt)
+            .then((res) => {
+                setUserEmail(res.data.email);
+                setLoggedIn(true);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     useEffect(() => {
-        authCheck();
+        tokenCheck();
     }, []);
     useEffect(() => {
         if (loggedIn) {
             history.push('/');
         }
     }, [loggedIn, history]);
-
     //------------------------------------------------------------------
 
     //--------Auth functionality-------------
@@ -95,7 +95,8 @@ function App() {
             .then((res) => {
                 setUserEmail(data.email);
                 setLoggedIn(true);
-                // localStorage.setItem('jwt', res.token)
+                localStorage.setItem('jwt', res.token);
+                res.send(localStorage.getItem('jwt'));
             })
     }
 
@@ -103,20 +104,15 @@ function App() {
         setIsInfoToolTipOpen(true);
         return authApi.register(data)
             .then(() => {
-                history.push('/sign-in');
+                history.push('/signin');
             })
     }
 
     function onLogout(e) {
-        return authApi.logout()
-            .then((res) => {
-                setUserEmail('');
-                setLoggedIn(false);
-            })
-        // localStorage.removeItem('jwt');
-        .finally(()=>{
-            history.push('/sign-in');
-        })
+        setLoggedIn(false);
+        localStorage.removeItem('jwt');
+        // setUserEmail=('');
+        history.push('/signin');
     }
     //========================================
 
@@ -239,14 +235,14 @@ function App() {
                     onLogout={onLogout}
                 />
                 <Switch>
-                    <Route path='/sign-in'>
+                    <Route path='/signin'>
                         <Login
                             onLogin={onLogin}
                             setMessage={setMessage}
                             setRegState={setRegState}
                         />
                     </Route>
-                    <Route path='/sign-up'>
+                    <Route path='/signup'>
                         <Register
                             onRegister={onRegister}
                             setMessage={setMessage}
