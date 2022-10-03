@@ -2,24 +2,21 @@
 const jwt = require('jsonwebtoken');
 const AuthError = require('../errors/authError');
 
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    throw new AuthError('Необходима авторизация');
+    next(new AuthError('Необходима авторизация'));
   }
 
   const token = authorization.replace('Bearer ', '');
   let payload;
 
   try {
-    payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = payload;
+    payload = await jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
-    if (e.name === 'JsonWebTokenError') {
-      next(new AuthError('Неверный токен'));
-      return;
-    }
+    next(new AuthError('Неверный токен'));
   }
+  req.user = payload;
   next();
 };
 
