@@ -41,16 +41,7 @@ function App() {
 
     const history = useHistory();
 
-    //---------user-cards functionality-------------
-    useEffect(() => {
-        api.getData('users/me')
-            .then((usersInfo) => {
-                setCurrentUser(usersInfo);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }, [])
+    //---------user functionality-------------
     function handleUpdateUser(userData) {
         api.setProfile(userData)
             .then((newUser) => {
@@ -80,12 +71,7 @@ function App() {
 
     useEffect(() => {
         tokenCheck();
-    }, []);
-    useEffect(() => {
-        if (loggedIn) {
-            history.push('/');
-        }
-    }, [loggedIn, history]);
+    }, [loggedIn]);
     //------------------------------------------------------------------
 
     //--------Auth functionality-------------
@@ -93,10 +79,11 @@ function App() {
         setIsInfoToolTipOpen(true);
         return authApi.authorize(data)
             .then((res) => {
+                localStorage.setItem('jwt', res.token);
                 setUserEmail(data.email);
                 setLoggedIn(true);
-                localStorage.setItem('jwt', res.token);
                 closeAllPopups();
+                history.go('/');              
             });
     }
 
@@ -114,7 +101,31 @@ function App() {
         localStorage.removeItem('jwt');
         history.push('/signin');
     }
+
+    const loadPage = () => {
+        api.getData('users/me')
+            .then((usersInfo) => {
+                setCurrentUser(usersInfo);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        api.getData('cards')
+            .then((dbCards) => {
+                setCards(dbCards);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    useEffect(() => {
+        if (loggedIn) {
+            loadPage();
+            history.push('/');
+        }
+    }, [loggedIn, history]);
     //========================================
+
 
     //--------popups functionality-------------
     function handleEditAvatarClick() {
@@ -168,17 +179,6 @@ function App() {
     }
 
     //------------cards functionality-------------
-    useEffect(() => {
-        api.getData('cards')
-            .then((dbCards) => {
-                setCards(dbCards);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-
-    }, [])
-
     function handleCardClick(card) {
         setSelectedCard(card);
     }
