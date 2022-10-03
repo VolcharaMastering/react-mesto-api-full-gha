@@ -22,7 +22,7 @@ const delCardById = async (req, res, next) => {
   const { cardId } = req.params;
   const myId = req.user._id;
   try {
-    const card = await Card.findByIdAndDelete(cardId);
+    const card = await Card.findById(cardId);
     if (!card) {
       next(new NotFound('Нет такой карточки'));
       return;
