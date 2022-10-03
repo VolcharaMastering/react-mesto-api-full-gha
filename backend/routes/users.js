@@ -6,11 +6,14 @@ const userRouter = express.Router();
 const {
   getUsers, getUserById, updateUser, updateUserAvatar, aboutMe,
 } = require('../controllers/users');
+const NotFound = require('../errors/notFound');
 
-userRouter.get('/users', getUsers);
-userRouter.get('/users/me', aboutMe);
-userRouter.get('/users/:userId', validateUserId, getUserById);
-userRouter.patch('/users/me', validateUpdateUser, updateUser);
-userRouter.patch('/users/me/avatar', validateUpdateAvatar, updateUserAvatar);
-
+userRouter.get('/', getUsers);
+userRouter.get('/me', aboutMe);
+userRouter.get('/:userId', validateUserId, getUserById);
+userRouter.patch('/me', validateUpdateUser, updateUser);
+userRouter.patch('/me/avatar', validateUpdateAvatar, updateUserAvatar);
+userRouter.use('*', (req, res, next) => {
+  next(new NotFound('Страница не найдена'));
+});
 module.exports = userRouter;

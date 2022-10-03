@@ -10,6 +10,8 @@ const { validateLogin, validateCreateUser } = require('./middlewares/errorValida
 const errorHandler = require('./middlewares/errorHandler');
 const NotFound = require('./errors/notFound');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const userRouter = require('./routes/users');
+const cardsRouter = require('./routes/cards');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -26,9 +28,9 @@ app.get('/crash-test', () => {
 app.use(requestLogger);
 app.post('/signin/', validateLogin, login);
 app.post('/signup/', validateCreateUser, createUser);
-app.use(auth);
-app.use(require('./routes/cards'));
-app.use(require('./routes/users'));
+
+app.use('/users', auth, userRouter);
+app.use('/cards', auth, cardsRouter);
 
 app.use('*', (req, res, next) => {
   next(new NotFound('Страница не найдена'));

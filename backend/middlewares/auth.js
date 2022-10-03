@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const AuthError = require('../errors/authError');
 
-const auth = async (req, res, next) => {
+const auth = (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization || !authorization.startsWith('Bearer ')) {
     next(new AuthError('Необходима авторизация'));
@@ -12,7 +12,7 @@ const auth = async (req, res, next) => {
   let payload;
 
   try {
-    payload = await jwt.verify(token, process.env.JWT_SECRET);
+    payload = jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
     next(new AuthError('Неверный токен'));
   }

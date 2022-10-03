@@ -6,11 +6,14 @@ const cardsRouter = express.Router();
 const {
   getCards, delCardById, createCard, likeCard, dislikeCard,
 } = require('../controllers/cards');
+const NotFound = require('../errors/notFound');
 
-cardsRouter.get('/cards', getCards);
-cardsRouter.delete('/cards/:cardId', validateCardId, delCardById);
-cardsRouter.post('/cards', validateCreateCard, createCard);
-cardsRouter.delete('/cards/:cardId/likes', validateCardId, dislikeCard);
-cardsRouter.put('/cards/:cardId/likes', validateCardId, likeCard);
-
+cardsRouter.get('/', getCards);
+cardsRouter.delete('/:cardId', validateCardId, delCardById);
+cardsRouter.post('/', validateCreateCard, createCard);
+cardsRouter.delete('/:cardId/likes', validateCardId, dislikeCard);
+cardsRouter.put('/:cardId/likes', validateCardId, likeCard);
+cardsRouter.all('*', (req, res, next) => {
+  next(new NotFound('Страница не найдена'));
+});
 module.exports = cardsRouter;
