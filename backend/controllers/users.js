@@ -32,29 +32,11 @@ const login = async (req, res, next) => {
     const token = jwt.sign({
       _id: user._id,
     }, process.env.JWT_SECRET);
-    /* res.cookie('jwt', token, {
-      maxAge: 3600000,
-      httpOnly: true,
-      // sameSite: true,
-      sameSite: 'None',
-      secure: true,
-    }); */
-    // res.status(OK_CODE).send({ token });
-    res.status(OK_CODE).send({ data: user.toJSON(), token });
-    // return token;
+    res.status(OK_CODE).send({ data: user, token });
   } catch (e) {
     next(new ServerError('Произошла ошибка на сервере'));
   }
 };
-
-/* const logout = async (req, res) => {
-  // Set token to none and expire after 1 seconds
-  res.cookie('token', 'none', {
-    expires: new Date(Date.now() + 1 * 1000),
-    httpOnly: true,
-  });
-  res.status(OK_CODE).json({ success: true, message: 'Пользователь успешно разлогинился.' });
-}; */
 
 const aboutMe = async (req, res, next) => {
   const myId = req.user._id;
@@ -64,7 +46,7 @@ const aboutMe = async (req, res, next) => {
       next(new NotFound('Такого пользователя нет'));
       return;
     }
-    res.status(OK_CODE).send({ data: me });
+    res.status(OK_CODE).send(me);
   } catch (e) {
     if (e.name === 'CastError') {
       next(new IncorrectData('Невалидный id', myId));
@@ -144,7 +126,7 @@ const updateUser = (req, res, next) => {
         next(new NotFound('Такого пользователя нет'));
         return;
       }
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((e) => {
       if (e.name === 'ValidationError') {
@@ -166,7 +148,7 @@ const updateUserAvatar = (req, res, next) => {
         next(new NotFound('Такого пользователя нет'));
         return;
       }
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((e) => {
       if (e.name === 'ValidationError') {
@@ -184,6 +166,5 @@ module.exports = {
   updateUser,
   updateUserAvatar,
   login,
-  // logout,
   aboutMe,
 };

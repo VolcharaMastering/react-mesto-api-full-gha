@@ -50,7 +50,7 @@ function App() {
             .catch((err) => {
                 console.log(err);
             })
-    }, [loggedIn])
+    }, [])
     function handleUpdateUser(userData) {
         api.setProfile(userData)
             .then((newUser) => {
@@ -70,7 +70,7 @@ function App() {
 
         authApi.authByToken(jwt)
             .then((res) => {
-                setUserEmail(res.data.email);
+                setUserEmail(res.email);
                 setLoggedIn(true);
             })
             .catch((err) => {
@@ -96,8 +96,8 @@ function App() {
                 setUserEmail(data.email);
                 setLoggedIn(true);
                 localStorage.setItem('jwt', res.token);
-                res.send(localStorage.getItem('jwt'));
-            })
+                closeAllPopups();
+            });
     }
 
     function onRegister(data) {
@@ -105,13 +105,13 @@ function App() {
         return authApi.register(data)
             .then(() => {
                 history.push('/signin');
+                closeAllPopups();
             })
     }
 
     function onLogout(e) {
         setLoggedIn(false);
         localStorage.removeItem('jwt');
-        // setUserEmail=('');
         history.push('/signin');
     }
     //========================================
@@ -184,7 +184,7 @@ function App() {
     }
 
     function handleCardLike(card) {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        const isLiked = card.likes.some(i => i === currentUser._id);
         api.changeLike(card._id, !isLiked)
             .then((newCard) => {
                 setCards((state) =>
@@ -201,8 +201,6 @@ function App() {
     function handleCardDelete(card) {
         api.delCard(card._id)
             .then(() => {
-                // const newCards = cards.filter(item => item._id !== card._id)
-                // setCards(newCards);
                 setCards((state) => state.filter((item) => item._id !== card._id));
             })
             .catch((err) => {

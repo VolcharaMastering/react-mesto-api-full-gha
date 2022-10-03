@@ -8,6 +8,7 @@ class AuthApi {
 
     _checkResponse(res) {
         if (res.ok) {
+            console.log("OK!");
             return res.json();
         }
         return Promise.reject(`Bug detected! ${res.status}: ${res.statusText}`);

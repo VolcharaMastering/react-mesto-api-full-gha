@@ -1,6 +1,5 @@
 import React from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-import api from '../utils/Api.js';
 import PopupWithForm from "./PopupWithForm.js";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {

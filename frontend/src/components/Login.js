@@ -31,6 +31,7 @@ function Login({ onLogin, setMessage, setRegState }) {
                 setMessage('Что-то пошло не так! Попробуйте ещё раз.');
                 setRegState(false);
             })
+        
     }
 
     return (

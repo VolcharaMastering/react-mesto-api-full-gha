@@ -11,7 +11,7 @@ const { OK_CODE, CODE_CREATED } = require('../states/states');
 
 const getCards = async (req, res, next) => {
   try {
-    const cards = await Card.find({});
+    const cards = await Card.find({}).sort([['createdAt', -1]]);
     res.status(OK_CODE).send(cards);
   } catch (e) {
     next(new ServerError('Произошла ошибка на сервере'));
@@ -75,7 +75,7 @@ const likeCard = (req, res, next) => {
         next(new NotFound('Нет такой карточки'));
         return;
       }
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((e) => {
       if (e.name === 'CastError') {
@@ -98,7 +98,7 @@ const dislikeCard = (req, res, next) => {
         next(new NotFound('Нет такой карточки'));
         return;
       }
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((e) => {
       if (e.name === 'CastError') {
