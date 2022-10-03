@@ -14,10 +14,6 @@ const { OK_CODE, CODE_CREATED } = require('../states/states');
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
-  if (!email || !password) {
-    next(new PermissionError('Поля необходимо заполнить.'));
-    return;
-  }
   try {
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
@@ -31,7 +27,7 @@ const login = async (req, res, next) => {
     }
     const token = jwt.sign({
       _id: user._id,
-    }, process.env.JWT_SECRET);
+    }, process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : 'dev-secret');
     res.status(OK_CODE).send({ data: user, token });
   } catch (e) {
     next(new ServerError('Произошла ошибка на сервере'));
@@ -90,11 +86,6 @@ const createUser = async (req, res, next) => {
     about,
     avatar,
   } = req.body;
-  const checkMail = await User.findOne({ email });
-  if (checkMail) {
-    next(new ConflictError('Такой email уже есть в базе'));
-    return;
-  }
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await new User({
@@ -111,7 +102,7 @@ const createUser = async (req, res, next) => {
       return;
     }
 
-    next(new ServerError('Произошла ошибка на сервере', e.message));
+    next(new ServerError('Произошла ошибка на сервере'));
   }
 };
 const updateUser = (req, res, next) => {
