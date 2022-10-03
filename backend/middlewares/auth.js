@@ -15,7 +15,10 @@ const auth = (req, res, next) => {
     payload = jwt.verify(token, process.env.JWT_SECRET);
     req.user = payload;
   } catch (e) {
-    next(new AuthError('Неверный токен'));
+    if (e.name === 'JsonWebTokenError') {
+      next(new AuthError('Неверный токен'));
+      return;
+    }
   }
   next();
 };
