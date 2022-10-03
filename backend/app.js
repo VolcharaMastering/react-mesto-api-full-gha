@@ -26,9 +26,9 @@ app.get('/crash-test', () => {
 app.use(requestLogger);
 app.post('/signin/', validateLogin, login);
 app.post('/signup/', validateCreateUser, createUser);
-// app.use(auth);
-app.use(auth, require('./routes/cards'));
-app.use(auth, require('./routes/users'));
+app.use(auth);
+app.use(require('./routes/cards'));
+app.use(require('./routes/users'));
 
 app.use('*', (req, res, next) => {
   next(new NotFound('Страница не найдена'));
