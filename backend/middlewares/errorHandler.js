@@ -1,12 +1,11 @@
-const ServerError = require('../errors/serverError');
-
 /* eslint-disable linebreak-style */
 const errorHandler = (err, req, res, next) => {
-  if (err.code) {
-    res.status(err.code).send({ message: err.message });
-    return;
+  const { code = 500, message } = err;
+  if (code === 500) {
+    res.status(code).send('Произошла ошибка на сервере');
+  } else {
+    res.status(code).send(message);
   }
-
-  next(new ServerError('Произошла ошибка на сервере'));
+  next();
 };
 module.exports = errorHandler;
