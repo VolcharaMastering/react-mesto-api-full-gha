@@ -13,7 +13,6 @@ Backend https://api.mesto.vmstr.nomoredomains.icu
 терминал MobaXterm, VScode (удалённый запуск и удалённое подключение: remote-SSH), Midnight Comander 
 
 **Стек технологий**  
-<h3 align="left">Languages and Tools:</h3>
 <p align="left"> 
   <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> 
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> 
