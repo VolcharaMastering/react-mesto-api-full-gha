@@ -1,8 +1,8 @@
 ///------For API request------
-const BASE_URL = 'https://api.mesto.vmstr.nomoredomains.icu/'
+const BASE_URL = 'https://api.vmstr-proj.ru/'
 let token = localStorage.getItem('jwt');
 const URL_CONFIG = {
-  'url': 'https://api.mesto.vmstr.nomoredomains.icu/',
+  'url': 'https://api.vmstr-proj.ru/',
   'headers': {
     "Accept": "application/json",
     'Authorization': `Bearer ${token}`,

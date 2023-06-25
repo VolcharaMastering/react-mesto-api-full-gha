@@ -13,7 +13,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const userRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3007 } = process.env;
 const app = express();
 
 app.use(cors());
