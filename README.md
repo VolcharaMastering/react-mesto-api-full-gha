@@ -1,7 +1,7 @@
 ## Проект: Место. Frontend и Backend.
 
-Frontend https://mesto.vmstr.nomoredomains.icu  
-Backend https://api.mesto.vmstr.nomoredomains.icu  
+Frontend https://vmstr-proj.ru/ 
+Backend https://api.vmstr-proj.ru/
 
 **Фунционал**  
 Проект `Mesto`, включающий фронтенд и бэкенд части.  
